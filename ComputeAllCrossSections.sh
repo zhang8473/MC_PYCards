@@ -11,7 +11,7 @@ do
     if [ -n "$2" ]&&[ "0.0$ep" != "$2" ]; then
 	continue
     fi
-    for mass in $( seq 950 25 950 )
+    for mass in $( seq 1500 25 1500 )
     do
 	if [ -n "$1" ]&&[ "$mass" != "$1" ]; then
 	    continue
@@ -52,7 +52,7 @@ do
                cd Configuration/GenProduction
                scramv1 b
                cd $CMSSW_BASE/src/
-               cmsDriver.py Configuration/GenProduction/python/$card -s GEN --fileout $rootfile --conditions $GlobalTag::All --datatier GEN --eventcontent RAWSIM -n 5000 --mc --no_exec
+               cmsDriver.py Configuration/GenProduction/python/$card -s GEN --fileout $rootfile --conditions $GlobalTag::All --datatier GEN --eventcontent RAWSIM -n 10000 --mc --no_exec
                echo 'process.load(\"FWCore.MessageLogger.MessageLogger_cfi\")'>>${card%.py}_py_GEN.py
                echo 'process.MessageLogger.cerr.FwkReport.reportEvery = 1000'>>${card%.py}_py_GEN.py
                CROSSSECTION=\`cmsRun ${card%.py}_py_GEN.py | grep \"All included\"\`
@@ -74,6 +74,7 @@ do
                rm $ShName
                ">$ShName
 	chmod +x $ShName
-        bsub -o /dev/null -e /dev/null -q 1nd $ShName
+        ./$ShName
+        #bsub -o /dev/null -e /dev/null -q 1nd $ShName
     done
 done
