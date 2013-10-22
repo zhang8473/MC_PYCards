@@ -6,17 +6,17 @@ if [ ! -d "$CMSSW_BASE/src/Configuration/GenProduction" ]; then
     mkdir $CMSSW_BASE/src/Configuration/GenProduction
     mkdir $CMSSW_BASE/src/Configuration/GenProduction/python
 fi
-for ep in $( seq 40 10 40 )
+for ep in $( seq 20 10 60 )
 do
     if [ -n "$2" ]&&[ "0.0$ep" != "$2" ]; then
 	continue
     fi
-    for mass in $( seq 1500 25 1500 )
+    for mass in $( seq 1525 25 2000 )
     do
 	if [ -n "$1" ]&&[ "$mass" != "$1" ]; then
 	    continue
 	fi
-	xsec_result=zprime_stu_m"$mass"_ep0"$ep"_cteq6l1_all.txt
+	xsec_result=zprime_stu_m"$mass"_ep0"$ep"_cteq6l1_masswindow.txt
 	width_result=zprime_stu_m"$mass"_ep0"$ep"_cteq6l1_decaywidth.txt
 	Written=FALSE
 	CNAME=BatchMacro_"$mass"_"$ep"
@@ -74,7 +74,6 @@ do
                rm $ShName
                ">$ShName
 	chmod +x $ShName
-        ./$ShName
-        #bsub -o /dev/null -e /dev/null -q 1nd $ShName
+        bsub -o /dev/null -e /dev/null -q 1nd $ShName
     done
 done
